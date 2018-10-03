@@ -1,0 +1,54 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.8.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+def mainClassName = "com.exonar.weblinkscraper.Application"
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+group = 'com.demo.weblinkscraper'
+version = '1.0.0'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+sourceSets {
+	test {
+		java.srcDirs = ['src/test/java']
+	}
+}
+
+jar {
+	baseName = 'link-crawler'
+	manifest {
+		attributes 'Main-Class' : mainClassName,
+				'Implementation-Title' : 'Nick Walter - Link Crawler',
+				'Implementation-Version': version
+	}
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-jetty:1.5.8.RELEASE')
+	compile('org.apache.cxf:cxf-spring-boot-starter-jaxrs:3.1.11')
+	compile('org.jsoup:jsoup:1.10.3')
+	compile('org.apache.commons:commons-lang3:3.0')
+	compile('commons-validator:commons-validator:1.4.0')
+
+	testCompile('junit:junit:4.12')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+configurations {
+	compile.exclude(module: 'spring-boot-starter-tomcat')
+}
